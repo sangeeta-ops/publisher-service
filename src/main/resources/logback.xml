@@ -9,7 +9,7 @@
 	</appender>
 	<appender name="SPLUNK"
 		class="com.splunk.logging.HttpEventCollectorLogbackAppender">
-		<url>https://prd-p-usyms.splunkcloud.com:8088</url>
+		<url>https://prd-p-cxj7t.splunkcloud.com/:8088</url>
 		<token>bba01741-6e90-4ec9-a069-70aea3834806</token>
 		<index>main</index>
 		<disableCertificateValidation>true</disableCertificateValidation>
