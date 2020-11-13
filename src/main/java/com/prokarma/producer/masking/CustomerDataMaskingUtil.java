@@ -4,7 +4,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.prokarma.producer.model.MessageRequest;
 
-public class CustomerDataMasking {
+public class CustomerDataMaskingUtil {
 
 	public static MessageRequest maskCustomerData(MessageRequest message) throws Exception {
 		MessageRequest maskRequest = new MessageRequest();
