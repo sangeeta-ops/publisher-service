@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-11-05T04:14:20.333Z")
 
 public class MessageRequest {
+
 	@JsonProperty("customerNumber")
 	private String customerNumber = null;
 
@@ -38,6 +39,7 @@ public class MessageRequest {
 	private String mobileNumber = null;
 
 	@JsonProperty("email")
+	@Email(message = "Email should be valid")
 	private String email = null;
 
 	/**
@@ -92,7 +94,7 @@ public class MessageRequest {
 	 * @return customerNumber
 	 **/
 
-	@Size(max = 10)
+	@Size(max = 10, message = "Customer number size should not be greater than 10.")
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
@@ -112,7 +114,7 @@ public class MessageRequest {
 	 * @return firstName
 	 **/
 
-	@Size(min = 10, max = 50)
+	@Size(min = 10, max = 50, message = "Size of first name  is in between 10 to 50.")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -132,7 +134,7 @@ public class MessageRequest {
 	 * @return lastName
 	 **/
 
-	@Size(min = 10, max = 50)
+	@Size(min = 10, max = 50, message = "Size of last name is in between 10 to 50")
 	public String getLastName() {
 		return lastName;
 	}
@@ -191,7 +193,7 @@ public class MessageRequest {
 	 * 
 	 * @return countryCode
 	 **/
-	@Size(max = 2)
+	@Size(max = 2, message = "Size of Country code is in between 0 to 2")
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -230,7 +232,7 @@ public class MessageRequest {
 	 * @return email
 	 **/
 
-	@Size(max = 50)
+	@Size(max = 50, message = "Size of email id is in between 0 to 50")
 	public String getEmail() {
 		return email;
 	}
@@ -250,7 +252,6 @@ public class MessageRequest {
 	 * @return customerStatus
 	 **/
 
-	@Size(max = 50)
 	public CustomerStatusEnum getCustomerStatus() {
 		return customerStatus;
 	}
