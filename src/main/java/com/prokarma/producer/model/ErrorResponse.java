@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-11-05T04:14:20.333Z")
 
-public class Error {
+public class ErrorResponse {
 	@JsonProperty("code")
 	private String code = null;
 
@@ -25,7 +25,7 @@ public class Error {
 	@JsonProperty("detailLink")
 	private String detailLink = null;
 
-	public Error code(String code) {
+	public ErrorResponse code(String code) {
 		this.code = code;
 		return this;
 	}
@@ -47,7 +47,7 @@ public class Error {
 		this.code = code;
 	}
 
-	public Error userMessage(String userMessage) {
+	public ErrorResponse userMessage(String userMessage) {
 		this.userMessage = userMessage;
 		return this;
 	}
@@ -68,7 +68,7 @@ public class Error {
 		this.userMessage = userMessage;
 	}
 
-	public Error systemMessage(String systemMessage) {
+	public ErrorResponse systemMessage(String systemMessage) {
 		this.systemMessage = systemMessage;
 		return this;
 	}
@@ -87,7 +87,7 @@ public class Error {
 		this.systemMessage = systemMessage;
 	}
 
-	public Error detailLink(String detailLink) {
+	public ErrorResponse detailLink(String detailLink) {
 		this.detailLink = detailLink;
 		return this;
 	}
@@ -114,7 +114,7 @@ public class Error {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Error error = (Error) o;
+		ErrorResponse error = (ErrorResponse) o;
 		return Objects.equals(this.code, error.code) && Objects.equals(this.userMessage, error.userMessage)
 				&& Objects.equals(this.systemMessage, error.systemMessage)
 				&& Objects.equals(this.detailLink, error.detailLink);
