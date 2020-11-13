@@ -6,4 +6,5 @@ public interface PublisherService {
 
 	public String send(MessageRequest message) throws Exception;
 
+
 }

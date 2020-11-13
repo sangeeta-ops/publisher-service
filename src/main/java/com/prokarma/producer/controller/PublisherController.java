@@ -1,5 +1,7 @@
 package com.prokarma.producer.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prokarma.producer.masking.CustomerDataMaskingUtil;
 import com.prokarma.producer.model.MessageRequest;
 import com.prokarma.producer.service.DefaultPublishService;
+import com.prokarma.producer.service.PublisherService;
 
 @RestController
-@RequestMapping("/produce")
+@RequestMapping("/publisher")
 public class PublisherController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PublisherController.class);
 
 	@Autowired
-	DefaultPublishService kafkaSenderService;
+	PublisherService publisherService;
 
-	@RequestMapping(method = RequestMethod.POST, path = "/send-message")
-	public ResponseEntity<String> consumeService(@RequestBody MessageRequest request) throws Exception {
-		MessageRequest messageRequest = CustomerDataMaskingUtil.maskCustomerData(request);
-		logger.info("messageRequest : {} ", messageRequest);
-		String responseStr = kafkaSenderService.send(request);
+	@RequestMapping(method = RequestMethod.POST, path = "/publish-message")
+	public ResponseEntity<String> publishService(@Valid @RequestBody MessageRequest messageRequest) throws Exception {
+		MessageRequest maskMessageRequest = CustomerDataMaskingUtil.maskCustomerData(messageRequest);
+		logger.info("messageRequest : {} ", maskMessageRequest);
+		String responseStr = publisherService.send(messageRequest);
 		ResponseEntity<String> response = new ResponseEntity<String>(responseStr, HttpStatus.OK);
 		return response;
 	}
