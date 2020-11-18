@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,318 +18,341 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import com.prokarma.producer.model.Address;
 import com.prokarma.producer.model.CustomerStatusEnum;
 import com.prokarma.producer.model.MessageRequest;
 import com.prokarma.producer.model.MessageResponse;
 import com.prokarma.producer.service.DefaultPublishService;
-import com.prokarma.producer.service.DefaultPublishServiceTest;
 import com.prokarma.producer.util.ObjectMapperUtil;
 
 @ExtendWith(MockitoExtension.class)
 class PublisherControllerTest {
 
-	private static final String RESPONSE_STRING = "{\"status\":\"success\",\"data\":\"Published Message sucessfully\"}";
+    private static final String RESPONSE_STRING =
+            "{\"status\":\"success\",\"data\":\"Published Message sucessfully\"}";
 
-	@InjectMocks
-	private PublisherController messageProducerController;
+    @InjectMocks
+    private PublisherController messageProducerController;
 
-	@Mock
-	private DefaultPublishService defaultPublishService;
+    @Mock
+    private DefaultPublishService defaultPublishService;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@BeforeEach
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(messageProducerController).build();
-	}
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(messageProducerController).build();
+    }
 
-	@Test
-	void testPublishServiceWithSuccess() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		Mockito.when(defaultPublishService.publishMessage(any())).thenReturn(buildMessageResponse());
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(200)).andReturn();
-		String responseString = result.getResponse().getContentAsString();
-		assertNotNull(responseString);
-		assertEquals(RESPONSE_STRING, responseString);
-	}
+    @Test
+    void testPublishServiceWithSuccess() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        Mockito.when(defaultPublishService.publishMessage(any()))
+                .thenReturn(buildMessageResponse());
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(200)).andReturn();
+        String responseString = result.getResponse().getContentAsString();
+        assertNotNull(responseString);
+        assertEquals(RESPONSE_STRING, responseString);
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyEmailId() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setEmail("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyEmailId() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setEmail("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithInvalidEmailId() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setEmail("invalid Email");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithInvalidEmailId() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setEmail("invalid Email");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyCustomerNumber() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setCustomerNumber("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyCustomerNumber() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setCustomerNumber("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfCustomerNumberIsGreaterThanTen() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setCustomerNumber("12121212121212");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfCustomerNumberIsGreaterThanTen() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setCustomerNumber("12121212121212");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyFirstName() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setFirstName("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyFirstName() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setFirstName("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfFirstNameIsLessThanTen() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setFirstName("Sangeeta");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfFirstNameIsLessThanTen() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setFirstName("Sangeeta");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfFirstNameIsGreaterThanHundred() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setLastName(
-				"Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta ");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfFirstNameIsGreaterThanHundred() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setLastName(
+                "Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta ");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyLastName() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setLastName("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyLastName() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setLastName("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfLastNameIsLessThanTen() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setFirstName("Khare");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfLastNameIsLessThanTen() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setFirstName("Khare");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfLastNameIsGreaterThanHundred() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setLastName(
-				"Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare ");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfLastNameIsGreaterThanHundred() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setLastName(
+                "Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare ");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyEmail() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setEmail("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyEmail() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setEmail("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfEmailIsGreaterThanFifty() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setEmail(
-				"KhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhare@gmail.com ");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfEmailIsGreaterThanFifty() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setEmail(
+                "KhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhare@gmail.com ");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyCountry() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setCountry("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyCountry() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setCountry("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyCountryCode() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setCountryCode("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyCountryCode() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setCountryCode("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfCountryCodeIsGreaterThanTwo() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setCountryCode("Ind");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfCountryCodeIsGreaterThanTwo() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setCountryCode("Ind");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyMobileNumber() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setMobileNumber("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyMobileNumber() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setMobileNumber("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithSizeOfMobileNumberIsGreaterThanTen() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.setMobileNumber("2121212122121");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithSizeOfMobileNumberIsGreaterThanTen() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.setMobileNumber("2121212122121");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithNullOrEmptyAddressLine1() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.getAddress().setAddressLine1("");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithNullOrEmptyAddressLine1() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.getAddress().setAddressLine1("");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithAddressLine1IsGreaterThanFittySize() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.getAddress().setAddressLine1(
-				"PunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePune");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithAddressLine1IsGreaterThanFittySize() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.getAddress().setAddressLine1(
+                "PunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePune");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithPostalCodeIsNullOrEmpty() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.getAddress().setPostalCode(null);
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithPostalCodeIsNullOrEmpty() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.getAddress().setPostalCode(null);
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	@Test
-	void testPublishServiceWithPostalCodeIsGretaterThanFiveSize() throws Exception {
-		MessageRequest message = buildMessageRequestObject();
-		message.getAddress().setPostalCode("132323");
-		MvcResult result = mockMvc
-				.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-						.headers(buildHttpHeaders()).content(ObjectMapperUtil.returnJsonFromObject(message)))
-				.andExpect(status().is(400)).andReturn();
+    @Test
+    void testPublishServiceWithPostalCodeIsGretaterThanFiveSize() throws Exception {
+        MessageRequest message = buildMessageRequestObject();
+        message.getAddress().setPostalCode("132323");
+        MvcResult result = mockMvc
+                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
+                        .headers(buildHttpHeaders())
+                        .content(ObjectMapperUtil.returnJsonFromObject(message)))
+                .andExpect(status().is(400)).andReturn();
 
-	}
+    }
 
-	private HttpHeaders buildHttpHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "application/json");
-		headers.set("Authorization", "Bearer eyJraWQiOiIzd2V5blJZX0VQSmxVdElna2h1ckNmUnVKbDJidGJCdkFq");
-		return headers;
-	}
+    private HttpHeaders buildHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Authorization",
+                "Bearer eyJraWQiOiIzd2V5blJZX0VQSmxVdElna2h1ckNmUnVKbDJidGJCdkFq");
+        return headers;
+    }
 
-	private MessageRequest buildMessageRequestObject() {
-		MessageRequest messageRequest = new MessageRequest();
-		Address address = buildAddressObject();
-		messageRequest.setAddress(address);
-		messageRequest.setCountry("India");
-		messageRequest.setCountryCode("IN");
-		messageRequest.setCustomerNumber("CUST123456");
-		messageRequest.setCustomerStatus(CustomerStatusEnum.OPEN);
-		messageRequest.setEmail("David@gmail.com");
-		messageRequest.setFirstName("David David");
-		messageRequest.setLastName("Willam Willam");
-		messageRequest.setMobileNumber("9912101210");
-		return messageRequest;
-	}
+    private MessageRequest buildMessageRequestObject() {
+        MessageRequest messageRequest = new MessageRequest();
+        Address address = buildAddressObject();
+        messageRequest.setAddress(address);
+        messageRequest.setCountry("India");
+        messageRequest.setCountryCode("IN");
+        messageRequest.setCustomerNumber("CUST123456");
+        messageRequest.setCustomerStatus(CustomerStatusEnum.OPEN);
+        messageRequest.setEmail("David@gmail.com");
+        messageRequest.setFirstName("David David");
+        messageRequest.setLastName("Willam Willam");
+        messageRequest.setMobileNumber("9912101210");
+        return messageRequest;
+    }
 
-	private Address buildAddressObject() {
-		Address address = new Address();
-		address.setAddressLine1("Shivane");
-		address.setAddressLine2("Pune");
-		address.setPostalCode("41102");
-		address.setStreet("Pune");
-		return address;
-	}
+    private Address buildAddressObject() {
+        Address address = new Address();
+        address.setAddressLine1("Shivane");
+        address.setAddressLine2("Pune");
+        address.setPostalCode("41102");
+        address.setStreet("Pune");
+        return address;
+    }
 
-	private MessageResponse buildMessageResponse() {
-		MessageResponse response = new MessageResponse();
-		response.setData("Published Message sucessfully");
-		response.setStatus("success");
-		return response;
-	}
+    private MessageResponse buildMessageResponse() {
+        MessageResponse response = new MessageResponse();
+        response.setData("Published Message sucessfully");
+        response.setStatus("success");
+        return response;
+    }
 
 }

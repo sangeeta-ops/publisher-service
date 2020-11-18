@@ -5,6 +5,6 @@ import com.prokarma.producer.model.MessageResponse;
 
 public interface PublisherService {
 
-	public MessageResponse publishMessage(MessageRequest message) throws Exception;
+    public MessageResponse publishMessage(MessageRequest message) throws Exception;
 
 }

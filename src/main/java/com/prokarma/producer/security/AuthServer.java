@@ -14,24 +14,24 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @Configuration
 @EnableAuthorizationServer
 public class AuthServer extends AuthorizationServerConfigurerAdapter {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private AuthenticationManager authenticationManagerBean;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManagerBean;
 
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("client").secret(passwordEncoder.encode(("secret")))
-				.authorizedGrantTypes("password").scopes("webclient", "mobileclient");
-	}
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory().withClient("client").secret(passwordEncoder.encode(("secret")))
+                .authorizedGrantTypes("password").scopes("webclient", "mobileclient");
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.authenticationManager(authenticationManagerBean);
-	}
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.authenticationManager(authenticationManagerBean);
+    }
 }
