@@ -5,31 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.*;
 
-/**
- * Address
- */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-11-05T04:14:20.333Z")
+public class AddressProducerRequest {
 
-public class Address {
-
-	@JsonProperty("addressLine1")
-	@Size(max = 50)
-	@NotEmpty
 	private String addressLine1 = null;
 
-	@JsonProperty("addressLine2 ")
 	private String addressLine2 = null;
 
-	@JsonProperty("street")
 	private String street = null;
 
-	@JsonProperty("postalCode")
-	@Size(max = 5)
-	@NotEmpty
 	private String postalCode = null;
 
-	public Address addressLine1(String addressLine1) {
+	public AddressProducerRequest addressLine1(String addressLine1) {
 		this.addressLine1 = addressLine1;
 		return this;
 	}
@@ -47,7 +33,7 @@ public class Address {
 		this.addressLine1 = addressLine1;
 	}
 
-	public Address addressLine2(String addressLine2) {
+	public AddressProducerRequest addressLine2(String addressLine2) {
 		this.addressLine2 = addressLine2;
 		return this;
 	}
@@ -65,7 +51,7 @@ public class Address {
 		this.addressLine2 = addressLine2;
 	}
 
-	public Address street(String street) {
+	public AddressProducerRequest street(String street) {
 		this.street = street;
 		return this;
 	}
@@ -84,7 +70,7 @@ public class Address {
 		this.street = street;
 	}
 
-	public Address postalCode(@Size(max = 5) String postalCode) {
+	public AddressProducerRequest postalCode(String postalCode) {
 		this.postalCode = postalCode;
 		return this;
 	}
@@ -94,6 +80,7 @@ public class Address {
 	 * 
 	 * @return postalCode
 	 **/
+
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -110,7 +97,7 @@ public class Address {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Address address = (Address) o;
+		AddressProducerRequest address = (AddressProducerRequest) o;
 		return Objects.equals(this.addressLine1, address.addressLine1)
 				&& Objects.equals(this.addressLine2, address.addressLine2)
 				&& Objects.equals(this.street, address.street) && Objects.equals(this.postalCode, address.postalCode);

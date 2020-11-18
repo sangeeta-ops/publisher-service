@@ -6,11 +6,13 @@ public class PublisherServiceException extends RuntimeException {
 	private final String statusCode;
 	private final String statusMessage;
 
+
 	public PublisherServiceException(String statusCode, String statusMessage) {
 		super(statusMessage);
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 	}
+
 
 	public String getStatusCode() {
 		return statusCode;

@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,64 +21,42 @@ import javax.validation.constraints.*;
 public class MessageRequest {
 
 	@JsonProperty("customerNumber")
+	@Size(max = 10, message = "Customer number size should not be greater than 10.")
+	@NotEmpty
 	private String customerNumber = null;
 
 	@JsonProperty("firstName")
+	@Size(min = 10, max = 50, message = "Size of first name  is in between 10 to 50.")
+	@NotEmpty
 	private String firstName = null;
 
 	@JsonProperty("lastName")
+	@Size(min = 10, max = 50, message = "Size of last name is in between 10 to 50")
+	@NotEmpty
 	private String lastName = null;
 
 	@JsonProperty("birthDate")
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate birthDate = null;
 
 	@JsonProperty("country")
+	@NotEmpty
 	private String country = null;
 
 	@JsonProperty("countryCode")
+	@Size(max = 2, message = "Size of Country code is in between 0 to 2")
+	@NotEmpty
 	private String countryCode = null;
 
 	@JsonProperty("mobileNumber")
+	@Size(max = 10)
+	@NotEmpty
 	private String mobileNumber = null;
 
 	@JsonProperty("email")
 	@Email(message = "Email should be valid")
+	@NotEmpty
 	private String email = null;
-
-	/**
-	 * Customer Status
-	 */
-	public enum CustomerStatusEnum {
-		OPEN("OPEN"),
-
-		CLOSE("CLOSE"),
-
-		SUSPENDED("SUSPENDED"),
-
-		RESTORED("RESTORED");
-
-		private String value;
-
-		CustomerStatusEnum(String value) {
-			this.value = value;
-		}
-
-		@Override
-		@JsonValue
-		public String toString() {
-			return String.valueOf(value);
-		}
-
-		@JsonCreator
-		public static CustomerStatusEnum fromValue(String text) {
-			for (CustomerStatusEnum b : CustomerStatusEnum.values()) {
-				if (String.valueOf(b.value).equals(text)) {
-					return b;
-				}
-			}
-			return null;
-		}
-	}
 
 	@JsonProperty("customerStatus")
 	private CustomerStatusEnum customerStatus = null;
@@ -94,7 +75,6 @@ public class MessageRequest {
 	 * @return customerNumber
 	 **/
 
-	@Size(max = 10, message = "Customer number size should not be greater than 10.")
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
@@ -114,7 +94,6 @@ public class MessageRequest {
 	 * @return firstName
 	 **/
 
-	@Size(min = 10, max = 50, message = "Size of first name  is in between 10 to 50.")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -134,7 +113,6 @@ public class MessageRequest {
 	 * @return lastName
 	 **/
 
-	@Size(min = 10, max = 50, message = "Size of last name is in between 10 to 50")
 	public String getLastName() {
 		return lastName;
 	}
@@ -193,7 +171,6 @@ public class MessageRequest {
 	 * 
 	 * @return countryCode
 	 **/
-	@Size(max = 2, message = "Size of Country code is in between 0 to 2")
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -212,7 +189,6 @@ public class MessageRequest {
 	 * 
 	 * @return mobileNumber
 	 **/
-
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
