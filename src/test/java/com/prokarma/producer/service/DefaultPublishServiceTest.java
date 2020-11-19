@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
 import com.prokarma.producer.converter.DefaultMessageRequestConverter;
+import com.prokarma.producer.converter.DefaultMessageRequestMaskConverter;
 import com.prokarma.producer.model.Address;
 import com.prokarma.producer.model.CustomerStatusEnum;
 import com.prokarma.producer.model.MessageRequest;
@@ -27,6 +28,9 @@ class DefaultPublishServiceTest {
 
     @Mock
     private DefaultMessageRequestConverter messageRequestConverter;
+
+    @Mock
+    private DefaultMessageRequestMaskConverter messageRequestMaskConverter;
 
 
     @BeforeEach

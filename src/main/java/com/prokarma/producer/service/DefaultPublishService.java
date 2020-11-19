@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import com.prokarma.producer.converter.DefaultMessageRequestConverter;
+import com.prokarma.producer.converter.DefaultMessageRequestMaskConverter;
+import com.prokarma.producer.exceptions.PublisherServiceException;
 import com.prokarma.producer.model.MessageProducerRequest;
 import com.prokarma.producer.model.MessageRequest;
 import com.prokarma.producer.model.MessageResponse;
@@ -24,19 +26,27 @@ public class DefaultPublishService implements PublisherService {
     @Autowired
     private DefaultMessageRequestConverter messageRequestConverter;
 
+    @Autowired
+    private DefaultMessageRequestMaskConverter messageRequestMaskConverter;
+
     public DefaultPublishService(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public MessageResponse publishMessage(MessageRequest message) {
-        MessageRequest messageRequest = messageRequestConverter.maskConversion(message);
-        logger.info("Start to Publish message and message is {}", messageRequest);
-        MessageProducerRequest messageProducerRequest =
-                messageRequestConverter.convert(messageRequest);
-        kafkaTemplate.send(kafkaTopic, messageProducerRequest);
-        logger.info("End to Publish message and message is {}", messageRequest);
+        try {
+            MessageRequest messageRequest = messageRequestMaskConverter.convert(message);
+            logger.info("Start to Publish message and message is {}", messageRequest);
+            MessageProducerRequest messageProducerRequest =
+                    messageRequestConverter.convert(messageRequest);
+            kafkaTemplate.send(kafkaTopic, messageProducerRequest);
+            logger.info("End to Publish message and message is {}", messageRequest);
+        } catch (PublisherServiceException ex) {
+            logger.error("Error is occured during Published message {}", ex.getMessage());
+        }
         return buildMessageResponse();
+
     }
 
     private MessageResponse buildMessageResponse() {

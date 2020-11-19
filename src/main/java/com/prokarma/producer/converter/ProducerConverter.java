@@ -1,6 +1,6 @@
 package com.prokarma.producer.converter;
 
-public interface Converter<I, O> {
+public interface ProducerConverter<I, O> {
 
     O convert(I input);
 

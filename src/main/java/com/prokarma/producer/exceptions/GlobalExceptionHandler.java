@@ -42,8 +42,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> unauthorizedHandler(UnauthorizedClientException ex,
             HttpServletRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
-        errorResponse.setUserMessage("No handler founf.");
+        errorResponse.setCode(String.valueOf(HttpStatus.UNAUTHORIZED.value()));
+        errorResponse.setUserMessage("Unauthorized token ");
         errorResponse.setSystemMessage("error ");
         errorResponse.setDetailLink(request.getRequestURI());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);

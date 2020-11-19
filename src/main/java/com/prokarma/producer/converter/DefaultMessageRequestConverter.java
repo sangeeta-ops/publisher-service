@@ -8,17 +8,7 @@ import com.prokarma.producer.model.MessageRequest;
 
 @Component
 public class DefaultMessageRequestConverter
-        implements Converter<MessageRequest, MessageProducerRequest> {
-
-    public MessageRequest maskConversion(MessageRequest messageRequest) {
-        messageRequest.setCustomerNumber(
-                messageRequest.getCustomerNumber().replaceAll(("\\w(?<=\\w{7})"), "*"));
-        messageRequest
-                .setBirthDate(messageRequest.getBirthDate().replaceAll(("\\d(?=[^-]*?-)"), "*"));
-        messageRequest.setEmail(messageRequest.getEmail().replaceAll((".(?<!.{5})"), "*"));
-
-        return messageRequest;
-    }
+        implements ProducerConverter<MessageRequest, MessageProducerRequest> {
 
     @Override
     public MessageProducerRequest convert(MessageRequest messageRequest) {

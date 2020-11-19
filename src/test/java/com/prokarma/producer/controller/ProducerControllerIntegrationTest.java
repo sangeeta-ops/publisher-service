@@ -68,15 +68,6 @@ public class ProducerControllerIntegrationTest {
         params.add("grant_type", "password");
         params.add("username", username);
         params.add("password", password);
-
-        // params.add("client_id", "client");
-
-        // params.add("client_secret", "secret");
-        //// params.add("scope", "webclient mobileclien");
-        // params.add("access_token_validity", "3 * 60 * 60");
-        // params.add("authorized_grant_types", "client_credentials authorization_code implicit
-        // refresh_token");
-
         ResultActions result = mockMvc.perform(post("/oauth/token").params(params)
                 .with(httpBasic(username, password)).accept("application/json;charset=UTF-8"))
                 .andExpect(status().isOk());
