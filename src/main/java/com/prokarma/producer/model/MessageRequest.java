@@ -1,6 +1,5 @@
 package com.prokarma.producer.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -21,40 +20,41 @@ public class MessageRequest {
 
     @JsonProperty("customerNumber")
     @Size(max = 10, message = "Customer number size should not be greater than 10.")
-    @NotEmpty
+    @NotEmpty(message = "CustomerNumber should not be empty.")
     private String customerNumber = null;
 
     @JsonProperty("firstName")
     @Size(min = 10, max = 50, message = "Size of first name  is in between 10 to 50.")
-    @NotEmpty
+    @NotEmpty(message = "firstName should not be empty.")
     private String firstName = null;
 
     @JsonProperty("lastName")
     @Size(min = 10, max = 50, message = "Size of last name is in between 10 to 50")
-    @NotEmpty
+    @NotEmpty(message = "lastName should not be empty.")
     private String lastName = null;
 
     @JsonProperty("birthDate")
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate birthDate = null;
+    @NotEmpty(message = "birthDate should not be empty.")
+    private String birthDate = null;
 
     @JsonProperty("country")
-    @NotEmpty
+    @NotEmpty(message = "country should not be empty.")
     private String country = null;
 
     @JsonProperty("countryCode")
     @Size(max = 2, message = "Size of Country code is in between 0 to 2")
-    @NotEmpty
+    @NotEmpty(message = "countryCode should not be empty.")
     private String countryCode = null;
 
     @JsonProperty("mobileNumber")
     @Size(max = 10)
-    @NotEmpty
+    @NotEmpty(message = "mobileNumber should not be empty.")
     private String mobileNumber = null;
 
     @JsonProperty("email")
     @Email(message = "Email should be valid")
-    @NotEmpty
+    @NotEmpty(message = "email should not be empty.")
     private String email = null;
 
     @JsonProperty("customerStatus")
@@ -120,7 +120,7 @@ public class MessageRequest {
         this.lastName = lastName;
     }
 
-    public MessageRequest birthDate(LocalDate birthDate) {
+    public MessageRequest birthDate(String birthDate) {
         this.birthDate = birthDate;
         return this;
     }
@@ -133,11 +133,11 @@ public class MessageRequest {
 
     @Valid
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -45,9 +45,9 @@ public class ProducerControllerIntegrationTest {
     @Test
     public void testAuthorizationWhenPassingValidToken() throws Exception {
         String accessToken = obtainAccessToken("client", "secret");
-        mockMvc.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                .header("Activity-Id", "demo").header("Authorization", "Bearer " + accessToken)
-                .header("Application-Id", "unit")
+        mockMvc.perform(post("/publisher/v1/publish-message")
+                .contentType(MediaType.APPLICATION_JSON).header("Activity-Id", "demo")
+                .header("Authorization", "Bearer " + accessToken).header("Application-Id", "unit")
                 .content(ObjectMapperUtil.returnJsonFromObject(buildCustomerRequest())))
                 .andExpect(status().isOk());
     }
@@ -55,8 +55,8 @@ public class ProducerControllerIntegrationTest {
     @Test
     public void testAuthorizationWhenPassingInValidToken() throws Exception {
         String accessToken = obtainAccessToken("client", "secret");
-        mockMvc.perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                .header("Activity-Id", "demo")
+        mockMvc.perform(post("/publisher/v1/publish-message")
+                .contentType(MediaType.APPLICATION_JSON).header("Activity-Id", "demo")
                 .header("Authorization", "Bearer " + accessToken + " invalid token")
                 .header("Application-Id", "unit")
                 .content(ObjectMapperUtil.returnJsonFromObject(buildCustomerRequest())))
@@ -94,6 +94,7 @@ public class ProducerControllerIntegrationTest {
         customerRequest.setEmail("abcdefghi@gmail.com");
         customerRequest.setCustomerStatus(CustomerStatusEnum.OPEN);
         customerRequest.setCountry("india");
+        customerRequest.setBirthDate("12-02-2020");
         customerRequest.setCountryCode("IN");
         customerRequest.mobileNumber("9999999999");
         Address customerAddress = new Address();

@@ -14,7 +14,7 @@ class ObjectMapperUtilTest {
     private ObjectMapper mapper;
 
     @Test
-    public void testObjectMapperUtilWhenDomainObjectPassed() throws Exception {
+    void testObjectMapperUtilWhenDomainObjectPassed() throws Exception {
         String expected =
                 "{\"customerNumber\":\"CUST123456\",\"firstName\":\"David David\",\"lastName\":\"Willam Willam\",\"birthDate\":null,\"country\":\"India\",\"countryCode\":\"IN\",\"mobileNumber\":\"9912101210\",\"email\":\"David@gmail.com\",\"customerStatus\":\"OPEN\",\"address\":{\"addressLine1\":\"Shivane\",\"addressLine2 \":\"Pune\",\"street\":\"Pune\",\"postalCode\":\"41102\"}}";
         MessageRequest messageRequest = buildMessageRequestObject();

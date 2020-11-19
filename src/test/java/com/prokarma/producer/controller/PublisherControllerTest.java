@@ -18,8 +18,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import com.prokarma.producer.converter.DefaultMessageRequestConverter;
 import com.prokarma.producer.model.Address;
+import com.prokarma.producer.model.AddressProducerRequest;
 import com.prokarma.producer.model.CustomerStatusEnum;
+import com.prokarma.producer.model.MessageProducerRequest;
 import com.prokarma.producer.model.MessageRequest;
 import com.prokarma.producer.model.MessageResponse;
 import com.prokarma.producer.service.DefaultPublishService;
@@ -37,6 +40,9 @@ class PublisherControllerTest {
     @Mock
     private DefaultPublishService defaultPublishService;
 
+    @Mock
+    private DefaultMessageRequestConverter messageRequestConverter;
+
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -48,11 +54,13 @@ class PublisherControllerTest {
     @Test
     void testPublishServiceWithSuccess() throws Exception {
         MessageRequest message = buildMessageRequestObject();
+
         Mockito.when(defaultPublishService.publishMessage(any()))
                 .thenReturn(buildMessageResponse());
+
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(200)).andReturn();
         String responseString = result.getResponse().getContentAsString();
@@ -65,8 +73,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setEmail("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -77,8 +85,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setEmail("invalid Email");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -89,8 +97,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setCustomerNumber("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -101,8 +109,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setCustomerNumber("12121212121212");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -113,8 +121,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setFirstName("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -125,8 +133,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setFirstName("Sangeeta");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -138,8 +146,8 @@ class PublisherControllerTest {
         message.setLastName(
                 "Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta Sangeeta ");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -150,8 +158,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setLastName("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -162,8 +170,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setFirstName("Khare");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -175,8 +183,8 @@ class PublisherControllerTest {
         message.setLastName(
                 "Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare Khare ");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -187,8 +195,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setEmail("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -200,8 +208,8 @@ class PublisherControllerTest {
         message.setEmail(
                 "KhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhareKhare@gmail.com ");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -212,8 +220,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setCountry("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -224,8 +232,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setCountryCode("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -236,8 +244,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setCountryCode("Ind");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -248,8 +256,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setMobileNumber("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -260,8 +268,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.setMobileNumber("2121212122121");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -272,8 +280,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.getAddress().setAddressLine1("");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -285,8 +293,8 @@ class PublisherControllerTest {
         message.getAddress().setAddressLine1(
                 "PunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePunePune");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -297,8 +305,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.getAddress().setPostalCode(null);
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -309,8 +317,8 @@ class PublisherControllerTest {
         MessageRequest message = buildMessageRequestObject();
         message.getAddress().setPostalCode("132323");
         MvcResult result = mockMvc
-                .perform(post("/publisher/publish-message").contentType(MediaType.APPLICATION_JSON)
-                        .headers(buildHttpHeaders())
+                .perform(post("/publisher/v1/publish-message")
+                        .contentType(MediaType.APPLICATION_JSON).headers(buildHttpHeaders())
                         .content(ObjectMapperUtil.returnJsonFromObject(message)))
                 .andExpect(status().is(400)).andReturn();
 
@@ -321,6 +329,8 @@ class PublisherControllerTest {
         headers.set("Content-Type", "application/json");
         headers.set("Authorization",
                 "Bearer eyJraWQiOiIzd2V5blJZX0VQSmxVdElna2h1ckNmUnVKbDJidGJCdkFq");
+        headers.set("Activity-Id", "Activity-Id");
+        headers.set("Application-Id", "Application-Id");
         return headers;
     }
 
@@ -330,6 +340,7 @@ class PublisherControllerTest {
         messageRequest.setAddress(address);
         messageRequest.setCountry("India");
         messageRequest.setCountryCode("IN");
+        messageRequest.setBirthDate("20-02-2020");
         messageRequest.setCustomerNumber("CUST123456");
         messageRequest.setCustomerStatus(CustomerStatusEnum.OPEN);
         messageRequest.setEmail("David@gmail.com");
@@ -339,6 +350,7 @@ class PublisherControllerTest {
         return messageRequest;
     }
 
+
     private Address buildAddressObject() {
         Address address = new Address();
         address.setAddressLine1("Shivane");
@@ -346,6 +358,30 @@ class PublisherControllerTest {
         address.setPostalCode("41102");
         address.setStreet("Pune");
         return address;
+    }
+
+    private MessageProducerRequest buildMessageProducerRequest(MessageRequest messageRequest) {
+        MessageProducerRequest messageProducerRequest = new MessageProducerRequest();
+        messageProducerRequest.setAddress(buildMessageAddressRequest(messageRequest.getAddress()));
+        messageProducerRequest.setBirthDate(messageRequest.getBirthDate());
+        messageProducerRequest.setCountry(messageRequest.getCountry());
+        messageProducerRequest.setCountryCode(messageRequest.getCountryCode());
+        messageProducerRequest.setCustomerNumber(messageRequest.getCustomerNumber());
+        messageProducerRequest.setCustomerStatus(messageRequest.getCustomerStatus());
+        messageProducerRequest.setEmail(messageRequest.getEmail());
+        messageProducerRequest.setFirstName(messageRequest.getEmail());
+        messageProducerRequest.setLastName(messageRequest.getLastName());
+        messageProducerRequest.setMobileNumber(messageRequest.getMobileNumber());
+        return messageProducerRequest;
+    }
+
+    private AddressProducerRequest buildMessageAddressRequest(Address address) {
+        AddressProducerRequest addressProducerRequest = new AddressProducerRequest();
+        addressProducerRequest.setAddressLine1(address.getAddressLine1());
+        addressProducerRequest.setAddressLine2(address.getAddressLine2());
+        addressProducerRequest.setPostalCode(address.getPostalCode());
+        addressProducerRequest.setStreet(address.getStreet());
+        return addressProducerRequest;
     }
 
     private MessageResponse buildMessageResponse() {

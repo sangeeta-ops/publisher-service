@@ -2,29 +2,37 @@ package com.prokarma.producer.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
-import com.prokarma.producer.exceptions.PublisherServiceException;
+import com.prokarma.producer.converter.DefaultMessageRequestConverter;
 import com.prokarma.producer.model.Address;
 import com.prokarma.producer.model.CustomerStatusEnum;
 import com.prokarma.producer.model.MessageRequest;
 import com.prokarma.producer.model.MessageResponse;
 
 @ExtendWith(MockitoExtension.class)
-public class DefaultPublishServiceTest {
-
-    private static final String RESPONSE_STRING = "Published Message sucessfully";
+class DefaultPublishServiceTest {
 
     @InjectMocks
     private DefaultPublishService defaultPublishService;
 
     @Mock
     private KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Mock
+    private DefaultMessageRequestConverter messageRequestConverter;
+
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void testPublishMessageWithSuccess() throws Exception {
@@ -34,12 +42,6 @@ public class DefaultPublishServiceTest {
         assertEquals(buildMessageResponse(), result);
     }
 
-    @Test
-    public void testPublishMessageWithNullMessageRequest() {
-        PublisherServiceException exception = assertThrows(PublisherServiceException.class,
-                () -> defaultPublishService.publishMessage(null));
-        assertEquals("500", exception.getStatusCode());
-    }
 
     private MessageRequest buildMessageRequestObject() {
         MessageRequest messageRequest = new MessageRequest();
@@ -52,6 +54,7 @@ public class DefaultPublishServiceTest {
         messageRequest.setEmail("David@gmail.com");
         messageRequest.setFirstName("David David");
         messageRequest.setLastName("Willam Willam");
+        messageRequest.setBirthDate("12-02-2020");
         messageRequest.setMobileNumber("9912101210");
         return messageRequest;
     }

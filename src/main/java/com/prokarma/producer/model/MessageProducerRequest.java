@@ -1,6 +1,5 @@
 package com.prokarma.producer.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +19,7 @@ public class MessageProducerRequest {
 
     private String lastName = null;
 
-    private LocalDate birthDate = null;
+    private String birthDate = null;
 
     private String country = null;
 
@@ -91,7 +90,7 @@ public class MessageProducerRequest {
         this.lastName = lastName;
     }
 
-    public MessageProducerRequest birthDate(LocalDate birthDate) {
+    public MessageProducerRequest birthDate(String birthDate) {
         this.birthDate = birthDate;
         return this;
     }
@@ -103,11 +102,11 @@ public class MessageProducerRequest {
      **/
 
     @Valid
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -17,7 +17,7 @@ public class Address {
 
     @JsonProperty("addressLine1")
     @Size(max = 50)
-    @NotEmpty
+    @NotEmpty(message = "addressLine1 should not be empty.")
     private String addressLine1 = null;
 
     @JsonProperty("addressLine2 ")
@@ -28,7 +28,7 @@ public class Address {
 
     @JsonProperty("postalCode")
     @Size(max = 5)
-    @NotEmpty
+    @NotEmpty(message = "postalCode should not be empty.")
     private String postalCode = null;
 
     public Address addressLine1(String addressLine1) {
