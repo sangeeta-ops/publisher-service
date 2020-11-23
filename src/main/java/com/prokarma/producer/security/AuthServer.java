@@ -1,5 +1,6 @@
 package com.prokarma.producer.security;
 
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class AuthServer extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManagerBean;
 
     @Override
+    @PostConstruct
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("client").secret(passwordEncoder.encode(("secret")))
                 .authorizedGrantTypes("password").scopes("webclient", "mobileclient");
