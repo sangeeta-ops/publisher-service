@@ -2,17 +2,15 @@ package com.prokarma.producer.constants;
 
 public enum PublisherConstants {
 
-    CUSTOMER_NUMBER_REGEX_EXPRESSION("\\w(?<=\\w{7})"), BIRTH_DATE_REGEX_EXPRESSION(
-            "\\d(?=[^-]*?-)"), EMAIL_ID_REGEX_EXPRESSION(".(?<!.{5})"), MASK_CONSTANTS("*");
+    ERROR("error"), ERROR_STRING("Errors occured during Published message and exception is {}");
 
-    private String regexExpression;
+    private String value;
 
-    PublisherConstants(String regexExpression) {
-        this.regexExpression = regexExpression;
+    PublisherConstants(String value) {
+        this.value = value;
     }
 
-    public String getRegexExpression() {
-        return regexExpression;
+    public String getValue() {
+        return value;
     }
-
 }

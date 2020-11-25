@@ -8,105 +8,83 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * As defined in
- * http://api-standards.apps.px-npe01.cf.prokarma.com/http/status-codes/error-response-format/
+ * http://api-standards.apps.px-npe01.cf.prokarma.com/http/status-codes/ErrorResponse-response-format/
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen",
-        date = "2020-11-05T04:14:20.333Z")
+        date = "2020-11-25T12:48:48.427Z")
+
+
 
 public class ErrorResponse {
-    @JsonProperty("code")
-    private String code = null;
+    @JsonProperty("status")
+    private String status = null;
 
-    @JsonProperty("userMessage")
-    private String userMessage = null;
+    @JsonProperty("message")
+    private String message = null;
 
-    @JsonProperty("systemMessage")
-    private String systemMessage = null;
+    @JsonProperty("error_type")
+    private String errorType = null;
 
-    @JsonProperty("detailLink")
-    private String detailLink = null;
-
-    public ErrorResponse code(String code) {
-        this.code = code;
+    public ErrorResponse status(String status) {
+        this.status = status;
         return this;
     }
 
     /**
-     * A succinct, domain-specific, human-readable text string to identify the type of error for the
-     * given status code
+     * Value should be error
      * 
-     * @return code
+     * @return status
      **/
     @NotNull
-
     @Pattern(regexp = "^[\\S ]+$")
-    public String getCode() {
-        return code;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public ErrorResponse userMessage(String userMessage) {
-        this.userMessage = userMessage;
+    public ErrorResponse message(String message) {
+        this.message = message;
         return this;
     }
 
     /**
-     * A human-readable message describing the error.
+     * A human-readable message describing the ErrorResponse.
      * 
-     * @return userMessage
+     * @return message
      **/
     @NotNull
-
     @Pattern(regexp = "^[\\S ]+$")
-    public String getUserMessage() {
-        return userMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setUserMessage(String userMessage) {
-        this.userMessage = userMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public ErrorResponse systemMessage(String systemMessage) {
-        this.systemMessage = systemMessage;
+    public ErrorResponse errorType(String errorType) {
+        this.errorType = errorType;
         return this;
     }
 
     /**
-     * Text that provides a more detailed technical explanation of the error
+     * Type of exception.
      * 
-     * @return systemMessage
+     * @return errorType
      **/
 
-    public String getSystemMessage() {
-        return systemMessage;
+    public String getErrorType() {
+        return errorType;
     }
 
-    public void setSystemMessage(String systemMessage) {
-        this.systemMessage = systemMessage;
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
     }
 
-    public ErrorResponse detailLink(String detailLink) {
-        this.detailLink = detailLink;
-        return this;
-    }
-
-    /**
-     * link to custom information providing greater detail on error or errors
-     * 
-     * @return detailLink
-     **/
-
-    public String getDetailLink() {
-        return detailLink;
-    }
-
-    public void setDetailLink(String detailLink) {
-        this.detailLink = detailLink;
-    }
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -116,27 +94,25 @@ public class ErrorResponse {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ErrorResponse error = (ErrorResponse) o;
-        return Objects.equals(this.code, error.code)
-                && Objects.equals(this.userMessage, error.userMessage)
-                && Objects.equals(this.systemMessage, error.systemMessage)
-                && Objects.equals(this.detailLink, error.detailLink);
+        ErrorResponse errorResponse = (ErrorResponse) o;
+        return Objects.equals(this.status, errorResponse.status)
+                && Objects.equals(this.message, errorResponse.message)
+                && Objects.equals(this.errorType, errorResponse.errorType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, userMessage, systemMessage, detailLink);
+        return Objects.hash(status, message, errorType);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Error {\n");
+        sb.append("class ErrorResponse {\n");
 
-        sb.append("    code: ").append(toIndentedString(code)).append("\n");
-        sb.append("    userMessage: ").append(toIndentedString(userMessage)).append("\n");
-        sb.append("    systemMessage: ").append(toIndentedString(systemMessage)).append("\n");
-        sb.append("    detailLink: ").append(toIndentedString(detailLink)).append("\n");
+        sb.append("    status: ").append(toIndentedString(status)).append("\n");
+        sb.append("    message: ").append(toIndentedString(message)).append("\n");
+        sb.append("    errorType: ").append(toIndentedString(errorType)).append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -152,3 +128,4 @@ public class ErrorResponse {
         return o.toString().replace("\n", "\n    ");
     }
 }
+

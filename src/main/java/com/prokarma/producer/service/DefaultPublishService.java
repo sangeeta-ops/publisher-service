@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import com.prokarma.producer.converter.DefaultMessageRequestConverter;
@@ -42,8 +43,9 @@ public class DefaultPublishService implements PublisherService {
                     messageRequestConverter.convert(messageRequest);
             kafkaTemplate.send(kafkaTopic, messageProducerRequest);
             logger.info("End to Publish message and message is {}", messageRequest);
-        } catch (PublisherServiceException ex) {
-            logger.error("Error is occured during Published message {}", ex.getMessage());
+        } catch (Exception ex) {
+            throw new PublisherServiceException(
+                    String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), ex.getMessage());
         }
         return buildMessageResponse();
 

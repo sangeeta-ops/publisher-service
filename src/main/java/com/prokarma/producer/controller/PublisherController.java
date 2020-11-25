@@ -38,7 +38,9 @@ public class PublisherController {
 
         MessageRequest maskMessageRequest = messageRequestMaskConverter.convert(messageRequest);
         logger.info("messageRequest : {} ", maskMessageRequest);
+        long startTime = System.currentTimeMillis();
         MessageResponse response = publisherService.publishMessage(messageRequest);
+        logger.info("Publisher Service required time:{}", System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
