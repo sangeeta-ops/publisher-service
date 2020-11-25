@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(PublisherConstants.ERROR.getValue());
         errorResponse.setMessage(errors);
         errorResponse.setErrorType(ex.getClass().getName());
-        logger.error(PublisherConstants.ERROR_STRING.getValue(), ex.getMessage());
+        logger.error("ErrorResponse :{}", errorResponse);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(PublisherConstants.ERROR.getValue());
         errorResponse.setMessage(ex.getMessage());
         errorResponse.setErrorType(ex.getClass().getName());
-        logger.error(PublisherConstants.ERROR_STRING.getValue(), ex.getMessage());
+        logger.error("ErrorResponse :{}", errorResponse);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(PublisherConstants.ERROR.getValue());
         errorResponse.setMessage(ex.getMessage());
         errorResponse.setErrorType(ex.getClass().getName());
-        logger.error(PublisherConstants.ERROR_STRING.getValue(), ex.getMessage());
+        logger.error("ErrorResponse :{}", errorResponse);
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(PublisherConstants.ERROR.getValue());
         errorResponse.setMessage(ex.getMessage());
         errorResponse.setErrorType(ex.getClass().getName());
-        logger.error(PublisherConstants.ERROR_STRING.getValue(), ex.getMessage());
+        logger.error("ErrorResponse :{}", errorResponse);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
