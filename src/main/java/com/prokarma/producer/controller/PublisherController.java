@@ -41,7 +41,7 @@ public class PublisherController {
         long startTime = System.currentTimeMillis();
         MessageResponse response = publisherService.publishMessage(messageRequest);
         logger.info("Publisher Service required time:{}", System.currentTimeMillis() - startTime);
-        logger.info("MessageResponse", response);
+        logger.info("MessageResponse:{}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
